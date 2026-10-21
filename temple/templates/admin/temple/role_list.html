@@ -1,0 +1,21 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<div id="content-main">
+  <p><a class="addlink" href="{% url 'temple-role-add' %}">新增角色</a></p>
+  <div class="module">
+    <table>
+      <thead><tr><th>角色名稱</th><th>已設定權限</th><th></th></tr></thead>
+      <tbody>
+        {% for role in roles %}
+          <tr>
+            <th scope="row">{{ role.name }}</th>
+            <td>{{ role.permissions.count }}</td>
+            <td><a href="{% url 'temple-role-edit' role.pk %}">編輯</a></td>
+          </tr>
+        {% empty %}<tr><td colspan="3">目前沒有可管理的角色。</td></tr>{% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <p class="help">角色只能設定宮廟資料的查看、新增、修改、刪除、匯出與報表權限。</p>
+</div>
+{% endblock %}

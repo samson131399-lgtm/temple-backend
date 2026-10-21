@@ -1,0 +1,48 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+<div id="content-main">
+  <form method="get" style="margin: 1em 0 2em;">
+    <label for="start">開始日期</label>
+    <input type="date" id="start" name="start" value="{{ start|date:'Y-m-d' }}" required>
+    <label for="end" style="margin-left: 1em;">結束日期</label>
+    <input type="date" id="end" name="end" value="{{ end|date:'Y-m-d' }}" required>
+    <button type="submit" class="button" style="margin-left: 1em;">查詢</button>
+    {% if can_export %}
+      <button type="submit" name="format" value="csv" class="button" style="margin-left: .5em;">匯出報表 CSV</button>
+    {% endif %}
+  </form>
+
+  <div class="module">
+    <table>
+      <caption>收支摘要（{{ start|date:'Y-m-d' }} 至 {{ end|date:'Y-m-d' }}）</caption>
+      <tbody>
+        <tr><th scope="row">收入合計</th><td>${{ income }}</td></tr>
+        <tr><th scope="row">支出合計</th><td>${{ expenses }}</td></tr>
+        <tr><th scope="row">收支結餘</th><td>${{ balance }}</td></tr>
+        <tr><th scope="row">活動報名人次（不含取消）</th><td>{{ registration_total }}</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="module" style="margin-top: 1.5em;">
+    <table>
+      <caption>期間內活動</caption>
+      <thead><tr><th>活動名稱</th><th>日期</th><th>狀態</th><th>名額</th><th>報名人數</th></tr></thead>
+      <tbody>
+        {% for event in event_rows %}
+          <tr>
+            <th scope="row">{{ event.name }}</th>
+            <td>{{ event.event_date|date:'Y-m-d' }}</td>
+            <td>{{ event.status }}</td>
+            <td>{{ event.capacity }}</td>
+            <td>{{ event.registration_count }}</td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="5">此期間沒有活動資料。</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

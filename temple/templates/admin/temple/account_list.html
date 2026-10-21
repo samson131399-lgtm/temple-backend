@@ -1,0 +1,23 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<div id="content-main">
+  <p><a class="addlink" href="{% url 'temple-account-add' %}">新增管理帳號</a></p>
+  <div class="module">
+    <table>
+      <thead><tr><th>登入帳號</th><th>姓名</th><th>角色</th><th>狀態</th><th></th></tr></thead>
+      <tbody>
+        {% for account in users %}
+          <tr>
+            <th scope="row">{{ account.username }}</th>
+            <td>{{ account.get_full_name|default:"—" }}</td>
+            <td>{% for role in account.groups.all %}{{ role.name }}{% if not forloop.last %}、{% endif %}{% empty %}未指派{% endfor %}</td>
+            <td>{% if account.is_active %}啟用{% else %}停用{% endif %}</td>
+            <td><a href="{% url 'temple-account-edit' account.pk %}">編輯</a></td>
+          </tr>
+        {% empty %}<tr><td colspan="5">目前沒有管理帳號。</td></tr>{% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <p class="help">管理帳號可登入後台。此頁不會顯示或授予超級管理員與 Django 系統權限。</p>
+</div>
+{% endblock %}

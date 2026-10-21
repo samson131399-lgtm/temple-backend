@@ -1,0 +1,11 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<div id="content-main">
+  <div class="module">
+    <h2>目前登入帳號無權管理帳號與角色</h2>
+    <p>目前登入：<strong>{{ signed_in_user }}</strong></p>
+    <p>請確認使用具備「管理帳號與角色」權限的廟務管理者帳號登入。</p>
+    <p><a href="{% url 'admin:logout' %}">登出並切換帳號</a></p>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "admin/index.html" %}
+
+{% block content %}
+  {{ block.super }}
+  {% if perms.temple.view_temple_reports %}
+    <div class="module" style="margin-top: 1.5em;">
+      <table>
+        <caption>報表</caption>
+        <tbody><tr><th scope="row"><a href="{% url 'temple-reports' %}">宮廟營運報表</a></th><td>收支與活動期間統計</td></tr></tbody>
+      </table>
+    </div>
+  {% endif %}
+  {% if perms.temple.manage_temple_accounts %}
+    <div class="module" style="margin-top: 1.5em;">
+      <table>
+        <caption>廟務管理</caption>
+        <tbody>
+          <tr><th scope="row"><a href="{% url 'temple-account-list' %}">帳號管理</a></th><td>建立帳號、設定登入狀態與角色</td></tr>
+          <tr><th scope="row"><a href="{% url 'temple-role-list' %}">角色與權限</a></th><td>設定宮廟資料存取權限</td></tr>
+        </tbody>
+      </table>
+    </div>
+  {% endif %}
+{% endblock %}
